@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ServerClientThreads:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ServerClientThreads_jar</output-path>
+    <root id="archive" name="ServerClientThreads.jar">
+      <element id="module-output" name="ServerClientThreads" />
+    </root>
+  </artifact>
+</component>
