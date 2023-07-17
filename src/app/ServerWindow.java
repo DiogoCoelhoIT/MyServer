@@ -1,7 +1,5 @@
 package app;
 
-import app.Server;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,13 +9,16 @@ public class ServerWindow extends JFrame{
 
    private JTextArea textArea;
     private JTextField adminTextArea;
-   private JScrollPane scrollPane;
+   private JScrollPane chatScrollPane;
+   private JList<Server.Client>members;
+   private DefaultListModel<Server.Client> membersName;
+
    private Server server;
     public ServerWindow(Server server)  {
         this.server = server;
         setName("Server");
         setBackground(Color.BLACK);
-        setSize(new Dimension(250,500));
+        setSize(new Dimension(400,500));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
         setLocationRelativeTo(null);
@@ -25,8 +26,27 @@ public class ServerWindow extends JFrame{
         textEditorClient();
         scroll();
         textEditorAdmin();
+        membersUI();
     }
-    public void textEditorClient()
+    private void membersUI()
+    {
+        membersName = new DefaultListModel<>();
+        members = new JList<>(membersName);
+        members.setSize(new Dimension(150,450));
+        members.setBounds(250,0,400,450);
+        members.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        members.setVisible(true);
+        add(members);
+    }
+    public void addMember(Server.Client name)
+    {
+        membersName.addElement(name);
+    }
+    public void removeMember(Client name)
+    {
+        membersName.removeElement(name);
+    }
+    private void textEditorClient()
     {
         textArea = new JTextArea();
         textArea.setVisible(true);
@@ -38,12 +58,12 @@ public class ServerWindow extends JFrame{
         textArea.setForeground(Color.green);
         textArea.setBorder(BorderFactory.createLineBorder(Color.green,2));
     }
-    public void clearText()
+    private void clearText()
     {
         textArea.setText("");
         textArea.append("------------Server-------------\n");
     }
-    public void textEditorAdmin()
+    private void textEditorAdmin()
     {
         adminTextArea = new JTextField();
         adminTextArea.setVisible(true);
@@ -82,8 +102,8 @@ public class ServerWindow extends JFrame{
     }
     public void scroll()
     {
-        scrollPane = new JScrollPane(textArea);
-        scrollPane.setBounds(0,0,250,435);
+        chatScrollPane = new JScrollPane(textArea);
+        chatScrollPane.setBounds(0,0,250,435);
 
     }
     public void editTextClient(String text)
@@ -100,7 +120,7 @@ public class ServerWindow extends JFrame{
     public void start()
     {
         this.setVisible(true);
-        this.add(scrollPane);
+        this.add(chatScrollPane);
         this.add(adminTextArea);
     }
 

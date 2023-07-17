@@ -190,7 +190,7 @@ public class Server {
 
     }
 
-    private class Client implements Runnable
+    class Client implements Runnable
     {
         private Socket socket;
         private BufferedReader in;
@@ -200,6 +200,7 @@ public class Server {
 
         public Client(Socket socket) {
             this.socket = socket;
+
             try {
                 out = new PrintWriter(clientSocket.getOutputStream(),true);
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -215,6 +216,8 @@ public class Server {
             } catch (IOException e) {
                 System.out.println("Client streams error");
                 throw new RuntimeException(e);
+            }finally {
+                serverWindow.addMember(this);
             }
         }
 
@@ -263,6 +266,12 @@ public class Server {
         public String getName() {
             return name;
         }
+
+        @Override
+        public String toString() {
+            return name.substring(0,1).toUpperCase()+name.substring(1);
+        }
     }
+
 
 }
